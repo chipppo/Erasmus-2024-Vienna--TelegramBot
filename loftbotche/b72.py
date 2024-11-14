@@ -32,11 +32,12 @@ class B72EventsSpider(scrapy.Spider):
             # Construct the full URL for the event link
             full_link = response.urljoin(link)
 
-            # Yield the event data for today's events only
+            # Yield the event data for today's events only, including the fixed location
             yield {
                 "date": event_date,
                 "title": title.strip(),
-                "link": full_link
+                "link": full_link,
+                "location": "b72"  # Fixed location value
             }
 
     def parse_date(self, date_text):
