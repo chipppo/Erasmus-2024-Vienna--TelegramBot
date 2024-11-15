@@ -2,8 +2,8 @@ import json
 import requests
 
 # Telegram bot credentials
-BOT_TOKEN = '7545702514:AAG4FIXbWtOsgcoJuZAzPYnLjg0LFDP-asc'
-CHAT_ID = '-1002471167965'
+BOT_TOKEN = ''
+CHAT_ID = ''
 
 # Load today's events from JSON file
 with open("theloft_today_events.json", "r") as f:

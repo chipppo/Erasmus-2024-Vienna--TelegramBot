@@ -1,39 +1,68 @@
 import requests
 import json
 
-# Telegram bot token and chat ID
-BOT_TOKEN = "7672829764:AAEuNRPH_geZc1b4HG2tckQdncczKl2S9RE"
-CHAT_ID = "-1002471167965"
+# Telegram bot token
+BOT_TOKEN = ""
 
-# Load events from the JSON file
-with open("b72_events_today.json", "r", encoding="utf-8") as f:
-    events = json.load(f)
+# Chat IDs
+CHAT_ID_TODAY = "-"  # Channel for today's events
+CHAT_ID_ALL = ""  # Channel for all events
 
-# Send a message for each event in today's JSON file
-for event in events:
-    title = event["title"]
-    link = event["link"]
-    location = event["location"]
+# Load events from JSON files
+with open("b72_events_today.json", "r", encoding="utf-8") as today_file:
+    today_events = json.load(today_file)
 
-    # Create message content
-    message = (
-        f"📅 *Event*: {title}\n"
-        f"🗓 *Date*: {event['date']}\n"
-        f"📍 *Location*: {location}\n"
-        f"🔗 [View Event]({link})"
-    )
+with open("b72_all_events.json", "r", encoding="utf-8") as all_file:
+    all_events = json.load(all_file)
 
-    # Send the message via Telegram API
+# Function to send messages to Telegram
+def send_message(chat_id, message):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     payload = {
-        "chat_id": CHAT_ID,
+        "chat_id": chat_id,
         "text": message,
         "parse_mode": "Markdown"
     }
     response = requests.post(url, json=payload)
 
-    # Check for successful send
+    # Log message sending status
     if response.status_code == 200:
-        print(f"Message sent for event: {title}")
+        print(f"Message sent to chat ID {chat_id}: {message}")
     else:
-        print(f"Failed to send message for event: {title}, status code: {response.status_code}")
+        print(f"Failed to send message to chat ID {chat_id}. Status code: {response.status_code}")
+
+# Format and send today's events
+if today_events:
+    for event in today_events:
+        title = event["title"]
+        date = event["date"]
+        link = event["link"]
+        location = event["location"]
+
+        message = (
+            f"📅 *Event*: {title}\n"
+            f"🗓 *Date*: {date}\n"
+            f"📍 *Location*: {location}\n"
+            f"🔗 [View Event]({link})"
+        )
+        send_message(CHAT_ID_TODAY, message)
+else:
+    send_message(CHAT_ID_TODAY, "No events are happening today at B72.")
+
+# Format and send all events
+if all_events:
+    for event in all_events:
+        title = event["title"]
+        date = event["date"]
+        link = event["link"]
+        location = event["location"]
+
+        message = (
+            f"📅 *Event*: {title}\n"
+            f"🗓 *Date*: {date}\n"
+            f"📍 *Location*: {location}\n"
+            f"🔗 [View Event]({link})"
+        )
+        send_message(CHAT_ID_ALL, message)
+else:
+    send_message(CHAT_ID_ALL, "No events are currently listed at B72.")

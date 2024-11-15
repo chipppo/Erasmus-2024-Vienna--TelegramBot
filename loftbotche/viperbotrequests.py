@@ -2,8 +2,8 @@ import requests
 import json
 
 # Telegram bot token and chat ID
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
-CHAT_ID = "YOUR_CHAT_ID_HERE"
+BOT_TOKEN = ""
+CHAT_ID = ""
 
 # Load events from the JSON file
 with open("viper_room_events_today.json", "r", encoding="utf-8") as f:
