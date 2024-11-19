@@ -6,16 +6,16 @@ from pyexpat.errors import messages
 from telethon.sync import TelegramClient
 
 # Your bot's API key and chat IDs for the channels
-API_KEY = "7545702514:AAG4FIXbWtOsgcoJuZAzPYnLjg0LFDP-asc"
-DAILY_CHANNEL_ID = "-1002471167965"  # Channel for today's events
-ALL_EVENTS_CHANNEL_ID = "-1002467176509"  # Channel for all events
+API_KEY = ""
+DAILY_CHANNEL_ID = ""  # Channel for today's events
+ALL_EVENTS_CHANNEL_ID = ""  # Channel for all events
 DAILY_EVENTS_JSON = "theloft_today_events.json"
 ALL_EVENTS_JSON = "theloft_all_events.json"
 SENT_EVENT_URLS_FILE = "sent_event_urls.json"
 
 # Telethon credentials
-API_ID = '26611896'  # Obtain from https://my.telegram.org
-API_HASH = '16055f95fa33f28d566706b37d2529fb'  # Obtain from https://my.telegram.org
+API_ID = ''  # Obtain from https://my.telegram.org
+API_HASH = ''  # Obtain from https://my.telegram.org
 
 # Initialize Telethon client
 client = TelegramClient('bot_session', API_ID, API_HASH)
