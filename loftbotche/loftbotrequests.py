@@ -2,55 +2,44 @@ import requests
 import json
 from datetime import datetime
 
+from pyexpat.errors import messages
+from telethon.sync import TelegramClient
+
 # Your bot's API key and chat IDs for the channels
 API_KEY = "7545702514:AAG4FIXbWtOsgcoJuZAzPYnLjg0LFDP-asc"
-
-# Chat IDs
 DAILY_CHANNEL_ID = "-1002471167965"  # Channel for today's events
 ALL_EVENTS_CHANNEL_ID = "-1002467176509"  # Channel for all events
-
-# File paths for the event JSONs
 DAILY_EVENTS_JSON = "theloft_today_events.json"
 ALL_EVENTS_JSON = "theloft_all_events.json"
+SENT_EVENT_URLS_FILE = "sent_event_urls.json"
 
-def send_message(chat_id, message):
-    """Helper function to send a message to a Telegram channel."""
-    url = f"https://api.telegram.org/bot{API_KEY}/sendMessage"
-    payload = {
-        'chat_id': chat_id,
-        'text': message,
-        'parse_mode': 'Markdown',  # Optional: Makes the message formatted in Markdown
-    }
-    response = requests.post(url, data=payload)
-    return response
+# Telethon credentials
+API_ID = '26611896'  # Obtain from https://my.telegram.org
+API_HASH = '16055f95fa33f28d566706b37d2529fb'  # Obtain from https://my.telegram.org
 
-def format_event_message(event):
-    """Formats event data into a message string."""
-    message = (
-        f"📅 *Event*: {event['title']}\n"
-        f"🗓 *Date*: {event['event_day']}, {event['start_date']}\n"
-        f"⏰ *Time*: {event['start_time']} - {event['end_time']}\n"
-        f"🎤 *Lineup*: {event['lineup']}\n"
-        f"📍 *Location*: {event['location']}\n"
-        f"🔗 {event['link']}"
-    )
-    return message
+# Initialize Telethon client
+client = TelegramClient('bot_session', API_ID, API_HASH)
 
-def send_events_to_channel(json_file, chat_id):
-    """Reads the JSON file and sends event messages to the specified Telegram channel."""
-    with open(json_file, 'r', encoding='utf-8') as file:
-        events = json.load(file)
 
-    for event in events:
-        message = format_event_message(event)
-        response = send_message(chat_id, message)
-        if response.status_code == 200:
-            print(f"Successfully sent event: {event['title']}")
-        else:
-            print(f"Failed to send event: {event['title']}")
+async def delete_last_message(chat_id):
+    # Fetch the last message in the channel
+    async for message in client.iter_messages(chat_id, limit=1):
+        # Delete the last message
+        await client.delete_messages(chat_id, message.id)
+        print(f"Deleted message with ID: {message.id}")
 
-# Send today's events to the 'Daily Events' channel
-send_events_to_channel(DAILY_EVENTS_JSON, DAILY_CHANNEL_ID)
 
-# Send all events to the 'All Events' channel
-send_events_to_channel(ALL_EVENTS_JSON, ALL_EVENTS_CHANNEL_ID)
+async def main():
+    # Getting information about yourself
+    me = await client.get_me()
+    print(me.stringify())
+    # When you print something, you see a representation of it.
+    # You can access all attributes of Telegram objects with
+    # the dot operator. For example, to get the username:
+    username = me.username
+    print(username)
+    print(me.phone)
+    await delete_last_message(-1002471167965)
+
+with client:
+    client.loop.run_until_complete(main())

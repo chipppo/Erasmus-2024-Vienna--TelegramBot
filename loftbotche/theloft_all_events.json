@@ -1,35 +1,5 @@
 [
     {
-        "title": "15 Jahre The Loft",
-        "event_day": "Friday",
-        "start_date": "2024-11-15",
-        "start_time": "21:00",
-        "end_time": "Late",
-        "lineup": "Various Artists",
-        "location": "The Loft",
-        "link": "https://www.theloft.at/15-jahre-the-loft/"
-    },
-    {
-        "title": "La Soiree 5",
-        "event_day": "Saturday",
-        "start_date": "2024-11-16",
-        "start_time": "19:30",
-        "end_time": "Late",
-        "lineup": "Various Artists",
-        "location": "The Loft",
-        "link": "https://www.theloft.at/la-soiree-5/"
-    },
-    {
-        "title": "2000s & 90ies & 2010s Club",
-        "event_day": "Saturday",
-        "start_date": "2024-11-16",
-        "start_time": "21:50",
-        "end_time": "Late",
-        "lineup": "Various Artists",
-        "location": "The Loft",
-        "link": "https://www.theloft.at/2000s-90ies-2010s-club-2/"
-    },
-    {
         "title": "Quizshow: What The Franz?",
         "event_day": "Tuesday",
         "start_date": "2024-11-19",
@@ -98,5 +68,35 @@
         "lineup": "Various Artists",
         "location": "The Loft",
         "link": "https://www.theloft.at/blowing-doozy-im-good-tour-2024/"
+    },
+    {
+        "title": "90ies & 2000s Club: Let’s get loud!",
+        "event_day": "Saturday",
+        "start_date": "2024-11-23",
+        "start_time": "21:50",
+        "end_time": "Late",
+        "lineup": "Various Artists",
+        "location": "The Loft",
+        "link": "https://www.theloft.at/90ies-2000s-club-lets-get-loud/"
+    },
+    {
+        "title": "Live: Puya – Most Wanted",
+        "event_day": "Sunday",
+        "start_date": "2024-11-24",
+        "start_time": "20:00",
+        "end_time": "Late",
+        "lineup": "Various Artists",
+        "location": "The Loft",
+        "link": "https://www.theloft.at/live-puya-most-wanted/"
+    },
+    {
+        "title": "Unnützes Musikwissen – Die Buchpräsentationsshow",
+        "event_day": "Monday",
+        "start_date": "2024-11-25",
+        "start_time": "19:30",
+        "end_time": "Late",
+        "lineup": "Various Artists",
+        "location": "The Loft",
+        "link": "https://www.theloft.at/unnuetzes-musikwissen/"
     }
 ]

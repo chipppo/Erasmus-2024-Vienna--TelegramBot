@@ -1,0 +1,29 @@
+[
+    {
+        "date": "2024-11-18",
+        "title": "Live: INTEGRITY, EYES",
+        "link": "https://www.viper-room.at/events/live-integrity-eyes",
+        "location": "Viper Room"
+    }
+]
+
+""""
+async def get_channel_messages(channel_id, limit=100):
+    """Fetch messages from the Telegram channel."""
+    async with client:
+        messages = await client.get_messages(channel_id, limit=limit)
+        return [message.text for message in messages]
+
+def load_sent_urls():
+    """Load the list of previously sent event URLs from a JSON file."""
+    try:
+        with open(SENT_EVENT_URLS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []  # Return an empty list if no file exists or if the file is empty
+
+    await client.send_message(-100123456, 'Hello, group!')
+
+
+# Run the Telethon client
+client.start()

@@ -1,10 +1,12 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
+import re
+import json
 from datetime import datetime
 
-class B72EventsSpider(scrapy.Spider):
-    name = "b72_events"
-    start_urls = ["https://www.b72.at/program"]
+class ViperRoomEventsSpider(scrapy.Spider):
+    name = "viperroom_events"
+    start_urls = ["https://www.viper-room.at/veranstaltungen"]
 
     def parse(self, response):
         # Get today's date in 'YYYY-MM-DD' format
@@ -14,29 +16,32 @@ class B72EventsSpider(scrapy.Spider):
         all_events = []
         today_events = []
 
-        # Select event blocks
-        events = response.css("div.col.l4.m6.s12.coming-up")
+        # Select event blocks (li tags)
+        events = response.css("li")
 
         for event in events:
-            # Extract details
-            title = event.css("h6.too-much-text a::text").get()
-            date = event.css("h4::text").get()
-            link = event.css("h6.too-much-text a::attr(href)").get()
+            # Extract details from the event
+            title = event.css("div.event_text h2.event_title a::text").get()
+            date_text = event.css("div.event_datetime div.event_date_monthyear::text").get()
+            link = event.css("div.event_text h2.event_title a::attr(href)").get()
 
             # Verify all required data is present
-            if not (title and date and link):
+            if not (title and date_text and link):
                 continue
 
-            # Parse date to 'YYYY-MM-DD' format
-            event_date = self.parse_date(date)
+            # Parse the date using regex
+            event_date = self.parse_date(date_text.strip())
+            if not event_date:
+                continue
+
             full_link = response.urljoin(link)
 
-            # Event data
+            # Event data structure
             event_data = {
                 "date": event_date,
                 "title": title.strip(),
                 "link": full_link,
-                "location": "B72",  # Fixed location
+                "location": "Viper Room",  # Fixed location
             }
 
             # Add to all events
@@ -47,18 +52,21 @@ class B72EventsSpider(scrapy.Spider):
                 today_events.append(event_data)
 
         # Write all events to JSON
-        self.write_to_json(all_events, "b72_all_events.json")
+        self.write_to_json(all_events, "viperroom_all_events.json")
 
         # Write today's events to JSON
-        self.write_to_json(today_events, "b72_events_today.json")
+        self.write_to_json(today_events, "viperroom_events_today.json")
 
     def parse_date(self, date_text):
         """
-        Convert date from 'DD.MM' format to 'YYYY-MM-DD', assuming the year is 2024.
+        Extracts and converts a date from 'DD.MM.YY' format to 'YYYY-MM-DD' using regex.
         """
-        try:
-            return datetime.strptime(f"{date_text}.2024", "%d.%m.%Y").strftime("%Y-%m-%d")
-        except ValueError:
+        match = re.match(r"(\d{2})\.(\d{2})\.(\d{2})", date_text)
+        if match:
+            day, month, year = match.groups()
+            year_full = f"20{year}"  # Convert 'YY' to '20YY'
+            return f"{year_full}-{month}-{day}"  # Return 'YYYY-MM-DD'
+        else:
             self.logger.error(f"Failed to parse date: {date_text}")
             return None
 
@@ -66,7 +74,6 @@ class B72EventsSpider(scrapy.Spider):
         """
         Write the given data to a JSON file.
         """
-        import json
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
@@ -75,5 +82,5 @@ process = CrawlerProcess(settings={
     "LOG_LEVEL": "INFO"
 })
 
-process.crawl(B72EventsSpider)
+process.crawl(ViperRoomEventsSpider)
 process.start()

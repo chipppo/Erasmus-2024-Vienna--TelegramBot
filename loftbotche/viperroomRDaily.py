@@ -2,18 +2,18 @@ import requests
 import json
 
 # Telegram bot token
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
+BOT_TOKEN = "7958779435:AAHkYL-e0anpkU-SktSENyAj1bCjRnB5yB0"
 
-# Chat IDs
+# Chat ID for today's events
 CHAT_ID_TODAY = "-1002471167965"  # Channel for today's events
-CHAT_ID_ALL = "-1002278732286"  # Channel for all events
 
-# Load events from JSON files
-with open("viperroom_events_today.json", "r", encoding="utf-8") as today_file:
-    today_events = json.load(today_file)
-
-with open("viperroom_all_events.json", "r", encoding="utf-8") as all_file:
-    all_events = json.load(all_file)
+# Load today's events from the JSON file
+try:
+    with open("viperroom_events_today.json", "r", encoding="utf-8") as today_file:
+        today_events = json.load(today_file)
+except FileNotFoundError:
+    print("Error: viperroom_events_today.json file not found.")
+    today_events = []
 
 # Function to send messages to Telegram
 def send_message(chat_id, message):
@@ -48,21 +48,3 @@ if today_events:
         send_message(CHAT_ID_TODAY, message)
 else:
     send_message(CHAT_ID_TODAY, "No events are happening today at Viper Room.")
-
-# Format and send all events
-if all_events:
-    for event in all_events:
-        title = event["title"]
-        date = event["date"]
-        link = event["link"]
-        location = event["location"]
-
-        message = (
-            f"📅 *Event*: {title}\n"
-            f"🗓 *Date*: {date}\n"
-            f"📍 *Location*: {location}\n"
-            f"🔗 [View Event]({link})"
-        )
-        send_message(CHAT_ID_ALL, message)
-else:
-    send_message(CHAT_ID_ALL, "No events are currently listed at Viper Room.")
