@@ -2,10 +2,10 @@ import requests
 import json
 
 # Telegram bot token
-BOT_TOKEN = "7958779435:AAHkYL-e0anpkU-SktSENyAj1bCjRnB5yB0"
+BOT_TOKEN = ""
 
 # Chat ID for all events
-CHAT_ID_ALL = "-1002419074754"  # Channel for all events
+CHAT_ID_ALL = ""  # Channel for all events
 
 # Load all events from the JSON file
 try:
