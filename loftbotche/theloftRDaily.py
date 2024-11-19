@@ -2,8 +2,8 @@ import requests
 import json
 
 # Your bot's API key and the Daily Events channel ID
-API_KEY = "7545702514:AAG4FIXbWtOsgcoJuZAzPYnLjg0LFDP-asc"
-DAILY_CHANNEL_ID = "-1002471167965"  # Channel for today's events
+API_KEY = ""
+DAILY_CHANNEL_ID = ""  # Channel for today's events
 DAILY_EVENTS_JSON = "theloft_today_events.json"  # File path for today's events JSON
 
 def send_message(chat_id, message):
