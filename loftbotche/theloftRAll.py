@@ -2,8 +2,8 @@ import requests
 import json
 
 # Your bot's API key and the All Events channel ID
-API_KEY = "7545702514:AAG4FIXbWtOsgcoJuZAzPYnLjg0LFDP-asc"
-ALL_EVENTS_CHANNEL_ID = "-1002467176509"  # Channel for all events
+API_KEY = ""
+ALL_EVENTS_CHANNEL_ID = ""  # Channel for all events
 ALL_EVENTS_JSON = "theloft_all_events.json"  # File path for all events JSON
 
 def send_message(chat_id, message):
