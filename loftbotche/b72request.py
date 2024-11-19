@@ -2,11 +2,11 @@ import requests
 import json
 
 # Telegram bot token
-BOT_TOKEN = "7672829764:AAEuNRPH_geZc1b4HG2tckQdncczKl2S9RE"
+BOT_TOKEN = ""
 
 # Chat IDs
-CHAT_ID_TODAY = "-1002471167965"  # Channel for today's events
-CHAT_ID_ALL = "-1002278732286"  # Channel for all events
+CHAT_ID_TODAY = ""  # Channel for today's events
+CHAT_ID_ALL = ""  # Channel for all events
 
 # Load events from JSON files
 with open("b72_events_today.json", "r", encoding="utf-8") as today_file:
